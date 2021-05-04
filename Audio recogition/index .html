@@ -1,0 +1,349 @@
+
+<style>
+input {
+    background: transparent;
+	border: none;
+	
+}
+	body{
+    background-image: url('12.jpg');
+    background-size: cover;
+	}
+	
+
+	
+	
+</style>
+<!-- Search Form -->
+
+<h1><input style="position: absolute; top: 100; right: 450;"type="text" name="q" id="transcript" ></h1>
+<p style ="position: absolute; top: 150; right: 700;" id="demo1"></p>
+<h2><input style="position: absolute; top: 200; right: 450;"type="text" name="q" id="ool" ></h2>
+<p style ="position: absolute; top: 250; right: 700;"id="demo2"></p>
+<h3><input style="position: absolute; top: 300; right: 450;"type="text" name="q" id="ggl" ></h3>
+<p style ="position: absolute; top: 350; right: 700;"id="demo3"></p>
+<h4><input style="position: absolute; top: 400; right: 450;"type="text" name="q" id="eel" ></h4>
+<p style ="position: absolute; top: 450; right: 700;"id="demo4"></p>
+
+
+<body>
+	<img  onclick="startDictation()" src="audio1.png" style="height: 40px; width:40px; float:right;position: absolute;
+    top: 15px;
+    right: 30px"  >
+	<img id = "kk" src="kklll.gif" style="background-color: transparent; height: 410px;position: absolute;
+    top: 50px; right: 10px"   align="right">
+</body>
+<!-- HTML5 Speech Recognition API -->
+
+<script>
+  function startDictation() {
+	var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)()
+	var count=0;
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+	  recognition.lang = 'zh-HK';
+	  recognition.maxAlternatives = 0;
+      recognition.start();
+	  var arr =['hello', 'how are you doing', 'How are you doing', 'hi',' how are you doing',' How are you doing',' hello',' hi','Hi',' Hi','Hello',' Hello'];
+      recognition.onresult = function(e) {
+	   for (var i = e.resultIndex; i < e.results.length; ++i) {
+        if (e.results[i].isFinal) {
+			document.getElementById('transcript').value
+									 = e.results[0][0].transcript;
+			document.getElementById("transcript").style.cssText = "position: absolute; top: 0; right: 300;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			document.getElementById("demo1").style.cssText = "position: absolute; top: 50; right: 700;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			if (document.getElementById('transcript').value == "hello"){
+				document.getElementById('demo1').innerHTML= "Hi";
+			}
+			if (document.getElementById('transcript').value == "Hello"){
+				document.getElementById('demo1').innerHTML= "Hi";
+			}
+			if (document.getElementById('transcript').value == "How are you doing"){
+				document.getElementById('demo1').innerHTML= "i am fine";
+			}
+			if (document.getElementById('transcript').value == "how are you doing"){
+				document.getElementById('demo1').innerHTML= "i am fine";
+			}
+			if (document.getElementById('transcript').value == "hi"){
+				document.getElementById('demo1').innerHTML= "you are welcome";
+			}
+			if (document.getElementById('transcript').value == "Hi"){
+				document.getElementById('demo1').innerHTML= "you are welcome";
+			}
+			if (arr.indexOf(document.getElementById('transcript').value)!== -1 ){
+			}
+			else {
+				document.getElementById('demo1').innerHTML= "Can you speak one more time?";
+			}
+			if(count == 0){
+				if (document.getElementById('transcript').value == "hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('transcript').value == "Hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('transcript').value == "How are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('transcript').value == "how are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('transcript').value == "hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('transcript').value == "Hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (arr.indexOf(document.getElementById('transcript').value)!== -1 ){
+				}
+				else {
+					let utterance = new SpeechSynthesisUtterance("Can you speak one more time");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+			}
+			document.getElementById('ool').value
+									 = e.results[1][0].transcript;
+			document.getElementById("ool").style.cssText = "position: absolute; top: 100; right: 300;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			document.getElementById("demo2").style.cssText = "position: absolute; top: 150; right: 700;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			if (document.getElementById('ool').value == " hello"){
+				document.getElementById('demo2').innerHTML= "Hi";
+			}
+			if (document.getElementById('ool').value == " Hello"){
+				document.getElementById('demo2').innerHTML= "Hi";
+			}
+			if (document.getElementById('ool').value == " how are you doing"){
+				document.getElementById('demo2').innerHTML= "i am fine";
+			}
+			if (document.getElementById('ool').value == " How are you doing"){
+				document.getElementById('demo2').innerHTML= "i am fine";
+			}
+			if (document.getElementById('ool').value == " hi"){
+				document.getElementById('demo2').innerHTML= "you are welcome";
+			}
+			if (document.getElementById('ool').value == " Hi"){
+				document.getElementById('demo2').innerHTML= "you are welcome";
+			}
+			if (arr.indexOf(document.getElementById('ool').value)!== -1 ){
+			}
+			else {
+				document.getElementById('demo2').innerHTML= "Can you speak one more time?";
+			}
+			if(count == 1){
+				if (document.getElementById('ool').value == " hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ool').value == " Hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ool').value == " How are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ool').value == " how are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ool').value == " hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ool').value == " Hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (arr.indexOf(document.getElementById('ool').value)!== -1 ){
+				}
+				else {
+					let utterance = new SpeechSynthesisUtterance("Can you speak one more time");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+			}
+			document.getElementById('ggl').value
+									 = e.results[2][0].transcript;
+			document.getElementById("ggl").style.cssText = "position: absolute; top: 200; right: 300;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			document.getElementById("demo3").style.cssText = "position: absolute; top: 250; right: 700;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			if (document.getElementById('ggl').value == " hello"){
+				document.getElementById('demo3').innerHTML= "Hi";
+			}
+			if (document.getElementById('ggl').value == " Hello"){
+				document.getElementById('demo3').innerHTML= "Hi";
+			}
+			if (document.getElementById('ggl').value == " How are you doing"){
+				document.getElementById('demo3').innerHTML= "i am fine";
+			}
+			if (document.getElementById('ggl').value == " how are you doing"){
+				document.getElementById('demo3').innerHTML= "i am fine";
+			}
+			if (document.getElementById('ggl').value == " hi"){
+				document.getElementById('demo3').innerHTML= "you are welcome";
+			}
+			if (document.getElementById('ggl').value == " Hi"){
+				document.getElementById('demo3').innerHTML= "you are welcome";
+			}
+			if (arr.indexOf(document.getElementById('ggl').value)!== -1 ){
+			}
+			else {
+				document.getElementById('demo3').innerHTML= "Can you speak one more time?";
+			}
+			if(count == 2){
+				if (document.getElementById('ggl').value == " hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ggl').value == " Hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ggl').value == " How are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ggl').value == " how are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ggl').value == " hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (document.getElementById('ggl').value == " Hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+				if (arr.indexOf(document.getElementById('ggl').value)!== -1 ){
+				}
+				else {
+					let utterance = new SpeechSynthesisUtterance("Can you speak one more time");
+					speechSynthesis.speak(utterance);
+					count=count+1;
+				}
+			}
+			document.getElementById('eel').value
+									 = e.results[3][0].transcript;
+			document.getElementById("eel").style.cssText = "position: absolute; top: 300; right: 300;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			document.getElementById("demo4").style.cssText = "position: absolute; top: 350; right: 700;width: 300px; margin: 50px auto; border: 4px solid black; padding: 20px; text-align: center; font-weight: 900; color: black; font-family: arial;background-color:#00bfb6 "
+			if (document.getElementById('eel').value == " hello"){
+				document.getElementById('demo4').innerHTML= "Hi";
+			}
+			if (document.getElementById('eel').value == " Hello"){
+				document.getElementById('demo4').innerHTML= "Hi";
+			}
+			if (document.getElementById('eel').value == " How are you doing"){
+				document.getElementById('demo4').innerHTML= "i am fine";
+			}
+			if (document.getElementById('eel').value == " how are you doing"){
+				document.getElementById('demo4').innerHTML= "i am fine";
+			}
+			if (document.getElementById('eel').value == " hi"){
+				document.getElementById('demo4').innerHTML= "you are welcome";
+			}
+			if (document.getElementById('eel').value == " Hi"){
+				document.getElementById('demo4').innerHTML= "you are welcome";
+			}
+			if (arr.indexOf(document.getElementById('eel').value)!== -1 ){
+			}
+			else {
+				document.getElementById('demo4').innerHTML= "Can you speak one more time?";
+			}
+			if (e.results.length > 3){
+				document.getElementById('eel').value
+									 = e.results[i][0].transcript;
+				if (document.getElementById('eel').value == " hello"){
+					document.getElementById('demo4').innerHTML= "Hi";
+				}
+				if (document.getElementById('eel').value == " Hello"){
+					document.getElementById('demo4').innerHTML= "Hi";
+				}
+				if (document.getElementById('eel').value == " How are you doing"){
+					document.getElementById('demo4').innerHTML= "i am fine";
+				}
+				if (document.getElementById('eel').value == " how are you doing"){
+					document.getElementById('demo4').innerHTML= "i am fine";
+				}
+				if (document.getElementById('eel').value == " hi"){
+					document.getElementById('demo4').innerHTML= "you are welcome";
+				}
+				if (document.getElementById('eel').value == " Hi"){
+					document.getElementById('demo4').innerHTML= "you are welcome";
+				}
+				if (arr.indexOf(document.getElementById('eel').value)!== -1 ){
+				}
+				else {
+					document.getElementById('demo4').innerHTML= "Can you speak one more time?";
+				}
+			}
+			if(count == 3){
+				if (document.getElementById('eel').value == " hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+				}
+				if (document.getElementById('eel').value == " Hello"){
+					let utterance = new SpeechSynthesisUtterance("Hi");
+					speechSynthesis.speak(utterance);
+				}
+				if (document.getElementById('eel').value == " How are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+				}
+				if (document.getElementById('eel').value == " how are you doing"){
+					let utterance = new SpeechSynthesisUtterance("i am fine");
+					speechSynthesis.speak(utterance);
+				}
+				if (document.getElementById('eel').value == " hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+				}
+				if (document.getElementById('eel').value == " Hi"){
+					let utterance = new SpeechSynthesisUtterance("you are welcome");
+					speechSynthesis.speak(utterance);
+				}
+				if (arr.indexOf(document.getElementById('eel').value)!== -1 ){
+				}
+				else {
+					let utterance = new SpeechSynthesisUtterance("Can you speak one more time");
+					speechSynthesis.speak(utterance);
+				}
+			}
+			
+
+	
+
+	 }
+
+			
+			
+	 }
+	 }
+
+	}
+
+</script>
