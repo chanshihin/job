@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forget Password</title>
+  <link rel="stylesheet" type="text/css" href="signup.css">
+</head>
+<body>
+  <div class="header">
+  	<h2>Forget Password</h2>
+  </div>
+	 
+  <form method="post" action="showPW.php">
+  	<div class="input-group">
+  		<label>Username</label>
+  		<input type="text" name="userName" required>
+  	</div>
+  	<div class="input-group">
+		Please fill in the following information to get your password.<hr>
+  		<label>Contact Number</label>
+  		<input type="text" name="contactNo" required>
+  	</div>
+	<div class="input-group">
+  	  <label for="dob">Date of Birth</label>
+  	  <input type="date" name="dob" required>
+  	</div>
+	
+	<div class="input-group">
+  		<label>Email</label>
+  		<input type="text" name="email" required>
+  	</div>
+	
+	<div class="input-group">
+  	<label for="question">Captcha Question</label>
+  	<select name = "question">
+		<option value="food">What is your favourite food?</option>
+		<option value="school">What is the name of your primary school?</option>
+		<option value="country">Which country have you been to recently? </option>
+	</select>
+  	</div>
+	
+	<div class="input-group">
+  	  <label for="answer">Your answer</label>
+  	  <input type="text" name="answer" required>
+  	</div>
+	
+  	<div class="input-group">
+  		<button type="submit" class="btn" name="forgetPW">Submit</button>
+  	</div>
+  	<p>
+		<a href="login.php">Back</a>
+  	</p>
+  </form>
+</body>
+</html> 
