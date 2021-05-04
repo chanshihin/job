@@ -1,0 +1,587 @@
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/QRCode.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="QRCodeGenerator.Default" %>
+
+<asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href= 
+"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />  -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="jquery-editable-select.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .qr-code {
+            max-width: 200px;
+            margin: 10px;
+        }
+        /* .form-control{
+		width: 30%;
+	} */
+        .select-editable {
+            position: relative;
+            background-color: white;
+            border: solid grey 1px;
+            width: 300px;
+            height: 18px;
+        }
+
+            .select-editable select {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                font-size: 14px;
+                border: none;
+                width: 300px;
+                margin: 0;
+            }
+
+            .select-editable input {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100px;
+                padding: 1px;
+                font-size: 12px;
+                border: none;
+            }
+
+                .select-editable select:focus, .select-editable input:focus {
+                    outline: none;
+                }
+    </style>
+</asp:Content>
+
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+<asp:HiddenField ID="hdnfldVariable" runat="server" value="abcd " ClientIDMode="Static" />
+<asp:HiddenField ID="xxxvalue" runat="server" ClientIDMode="Static" value="1 " />
+<asp:HiddenField ID="HiddenField1" runat="server" ClientIDMode="Static" value="1 " />
+    <p id="ooll"></p>
+    <div class="container-fluid m-3">
+
+        <div class="text-center p-3 mb-0 mt-3">
+            <div class="container">
+                <h1 class="display-4">
+                    <label style="font-family: 'Times New Roman', Times, serif;">QR Code Generator</label>
+                    <img src="qrcode_noinfo.png" class="qr-code img-responsive" style="height: 65px;" /></h1>
+
+                <div class="text-center m-3" style="display: none;">
+                    <div id="qrcode" style="width: 100px; height: 100px; margin-left: auto; margin-right: auto; display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="InputForm" role="form" class="needs-validation">
+        <div class="form-horizontal container mx-auto " style="width: 650px;">
+            <div class="border rounded mb-3">
+                <div class="form-group form-row">
+                    <div class="col-sm-6">
+                        <label class="col-form-label col-sm-5"
+                            for="content">
+                            Start Date: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <!-- Input box to enter the  
+                      required data -->
+
+
+                            <input type="date" value="<%=DateTime.Now.ToString("yyyy-MM-dd") %>"
+                                class="form-control required" required
+                                id="start" />
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="col-form-label col-sm-5"
+                            for="content">
+                            Start time: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <!-- Input box to enter the  
+                      required data -->
+                            <input type="time" value="00:00"
+                                class="form-control required" required
+                                id="stime" />
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <div class="col-sm-6">
+                        <label class="col-form-label col-sm-5"
+                            for="content">
+                            End Date: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <!-- Input box to enter the  
+              required data -->
+                            <input type="date" value="<%=DateTime.Now.ToString("yyyy-MM-dd") %>"
+                                class="form-control required" required
+                                id="end" />
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="col-form-label col-sm-5"
+                            for="content">
+                            End time: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <!-- Input box to enter the  
+              required data -->
+                            <input type="time" value="23:59"
+                                class="form-control required" required
+                                id="etime" />
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <div class="col-sm-12">
+                        <label class="col-form-label col-sm-3"
+                            for="content">
+                            CompanyID: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <!-- Input box to enter the  
+              required data -->
+                            <input type="text" class="form-control required" id="cid" placeholder="Enter the company ID" required
+                                maxlength="4" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <div class="col-sm-12">
+                        <label class="col-form-label col-sm-3"
+                            for="content">
+                            Mode: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <!-- Input box to enter the  
+              required data -->
+                           <select required class="form-control required" name="mode" id="mode">
+                             <option value="" selected disabled hidden>Please select a mode</option>
+                            <option value="Setting">Setting</option>
+                            <option value="Floor">Floor</option>
+                            <option value="Locker">Locker</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="form-group form-row">
+                    <div class="col-sm-12">
+                        <label class="col-form-label col-sm-3"
+                            for="content">
+                            Mode: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <select required class="form-control required" id="mode" name="mode">
+                                <option value="">Please select a mode</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>-->
+                <div class="form-group form-row">
+                    <div class="col-sm-12">
+                        <label class="col-form-label col-sm-3"
+                            for="content">
+                            Value: 
+                        </label>
+                        <div class="col-sm-12">
+                            <fieldset id="group0" class="form-group form-check">
+                                0B1<input type="checkbox" class="mx-1" value="0B1" name="group1">
+                                0B2<input type="checkbox" class="mx-1" value="0B2" name="group1">
+                                0B3<input type="checkbox" class="mx-1" value="0B3" name="group1">
+                                0B4<input type="checkbox" class="mx-1" value="0B4" name="group1">
+                                0B5<input type="checkbox" class="mx-1" value="0B5" name="group1">
+                                0B6<input type="checkbox" class="mx-1" value="0B6" name="group1">
+                                00R<input type="checkbox" class="mx-1" value="00R" name="group1">
+                            </fieldset>
+                            <fieldset id="group1" class="form-group form-check">
+                                000<input type="checkbox" class="mx-1" value="000" name="group1">
+                                001<input type="checkbox" class="mx-1" value="001" name="group1">
+                                002<input type="checkbox" class="mx-1" value="002" name="group1">
+                                003<input type="checkbox" class="mx-1" value="003" name="group1">
+                                004<input type="checkbox" class="mx-1" value="004" name="group1">
+                                005<input type="checkbox" class="mx-1" value="005" name="group1">
+                                006<input type="checkbox" class="mx-1" value="006" name="group1">
+                                007<input type="checkbox" class="mx-1" value="007" name="group1">
+                                008<input type="checkbox" class="mx-1" value="008" name="group1">
+                                009<input type="checkbox" class="mx-1" value="009" name="group1">
+                            </fieldset>
+
+                            <fieldset id="group1.5" class="form-group form-check">
+                                010<input type="checkbox" class="mx-1" value="010" name="group1">
+                                011<input type="checkbox" class="mx-1" value="011" name="group1">
+                                012<input type="checkbox" class="mx-1" value="012" name="group1">
+                                013<input type="checkbox" class="mx-1" value="013" name="group1">
+                                014<input type="checkbox" class="mx-1" value="014" name="group1">
+                                015<input type="checkbox" class="mx-1" value="015" name="group1">
+                                016<input type="checkbox" class="mx-1" value="016" name="group1">
+                                017<input type="checkbox" class="mx-1" value="017" name="group1">
+                                018<input type="checkbox" class="mx-1" value="018" name="group1">
+                                019<input type="checkbox" class="mx-1" value="019" name="group1">
+                            </fieldset>
+
+
+
+                            <fieldset id="group2" class="form-group form-check">
+                                020<input type="checkbox" class="mx-1" value="020" name="group1">
+                                021<input type="checkbox" class="mx-1" value="021" name="group1">
+                                022<input type="checkbox" class="mx-1" value="022" name="group1">
+                                023<input type="checkbox" class="mx-1" value="023" name="group1">
+                                024<input type="checkbox" class="mx-1" value="024" name="group1">
+                                025<input type="checkbox" class="mx-1" value="025" name="group1">
+                                026<input type="checkbox" class="mx-1" value="026" name="group1">
+                                027<input type="checkbox" class="mx-1" value="027" name="group1">
+                                028<input type="checkbox" class="mx-1" value="028" name="group1">
+                                029<input type="checkbox" class="mx-1" value="029" name="group1">
+                            </fieldset>
+                            <fieldset id="group2.5" class="form-group form-check">
+                                030<input type="checkbox" class="mx-1" value="030" name="group1">
+                                031<input type="checkbox" class="mx-1" value="031" name="group1">
+                                032<input type="checkbox" class="mx-1" value="032" name="group1">
+                                033<input type="checkbox" class="mx-1" value="033" name="group1">
+                                034<input type="checkbox" class="mx-1" value="034" name="group1">
+                                035<input type="checkbox" class="mx-1" value="035" name="group1">
+                                036<input type="checkbox" class="mx-1" value="036" name="group1">
+                                037<input type="checkbox" class="mx-1" value="037" name="group1">
+                                038<input type="checkbox" class="mx-1" value="038" name="group1">
+                                039<input type="checkbox" class="mx-1" value="039" name="group1">
+                            </fieldset>
+                            <fieldset id="group3" class="form-group form-check">
+                                040<input type="checkbox" class="mx-1" value="040" name="group1">
+                                041<input type="checkbox" class="mx-1" value="041" name="group1">
+                                042<input type="checkbox" class="mx-1" value="042" name="group1">
+                                043<input type="checkbox" class="mx-1" value="043" name="group1">
+                                044<input type="checkbox" class="mx-1" value="044" name="group1">
+                                045<input type="checkbox" class="mx-1" value="045" name="group1">
+                                046<input type="checkbox" class="mx-1" value="046" name="group1">
+                                047<input type="checkbox" class="mx-1" value="047" name="group1">
+                                048<input type="checkbox" class="mx-1" value="048" name="group1">
+                                049<input type="checkbox" class="mx-1" value="049" name="group1">
+                            </fieldset>
+                            <fieldset id="group3.5" class="form-group form-check">
+                                050<input type="checkbox" class="mx-1" value="050" name="group1">
+                                051<input type="checkbox" class="mx-1" value="051" name="group1">
+                                052<input type="checkbox" class="mx-1" value="052" name="group1">
+                                053<input type="checkbox" class="mx-1" value="053" name="group1">
+                                054<input type="checkbox" class="mx-1" value="054" name="group1">
+                                055<input type="checkbox" class="mx-1" value="055" name="group1">
+                                056<input type="checkbox" class="mx-1" value="056" name="group1">
+                                057<input type="checkbox" class="mx-1" value="057" name="group1">
+                                058<input type="checkbox" class="mx-1" value="058" name="group1">
+                                059<input type="checkbox" class="mx-1" value="059" name="group1">
+                            </fieldset>
+                            <fieldset id="group4" class="form-group form-check">
+                                060<input type="checkbox" class="mx-1" value="060" name="group1">
+                                061<input type="checkbox" class="mx-1" value="061" name="group1">
+                                062<input type="checkbox" class="mx-1" value="062" name="group1">
+                                063<input type="checkbox" class="mx-1" value="063" name="group1">
+                                064<input type="checkbox" class="mx-1" value="064" name="group1">
+                                065<input type="checkbox" class="mx-1" value="065" name="group1">
+                                066<input type="checkbox" class="mx-1" value="066" name="group1">
+                                067<input type="checkbox" class="mx-1" value="067" name="group1">
+                                068<input type="checkbox" class="mx-1" value="068" name="group1">
+                                069<input type="checkbox" class="mx-1" value="069" name="group1">
+                            </fieldset>
+                            <fieldset id="group4.5" class="form-group form-check">
+                                070<input type="checkbox" class="mx-1" value="070" name="group1">
+                                071<input type="checkbox" class="mx-1" value="071" name="group1">
+                                072<input type="checkbox" class="mx-1" value="072" name="group1">
+                                073<input type="checkbox" class="mx-1" value="073" name="group1">
+                                074<input type="checkbox" class="mx-1" value="074" name="group1">
+                                075<input type="checkbox" class="mx-1" value="075" name="group1">
+                                076<input type="checkbox" class="mx-1" value="076" name="group1">
+                                077<input type="checkbox" class="mx-1" value="077" name="group1">
+                                078<input type="checkbox" class="mx-1" value="078" name="group1">
+                                079<input type="checkbox" class="mx-1" value="079" name="group1">
+                            </fieldset>
+                            <fieldset id="group5" class="form-group form-check">
+                                080<input type="checkbox" class="mx-1" value="080" name="group1">
+                                081<input type="checkbox" class="mx-1" value="081" name="group1">
+                                082<input type="checkbox" class="mx-1" value="082" name="group1">
+                                083<input type="checkbox" class="mx-1" value="083" name="group1">
+                                084<input type="checkbox" class="mx-1" value="084" name="group1">
+                                085<input type="checkbox" class="mx-1" value="085" name="group1">
+                                086<input type="checkbox" class="mx-1" value="086" name="group1">
+                                087<input type="checkbox" class="mx-1" value="087" name="group1">
+                                088<input type="checkbox" class="mx-1" value="088" name="group1">
+                                089<input type="checkbox" class="mx-1" value="089" name="group1">
+                            </fieldset>
+                            <fieldset id="group5.5" class="form-group form-check">
+                                090<input type="checkbox" class="mx-1" value="090" name="group1">
+                                091<input type="checkbox" class="mx-1" value="091" name="group1">
+                                092<input type="checkbox" class="mx-1" value="092" name="group1">
+                                093<input type="checkbox" class="mx-1" value="093" name="group1">
+                                094<input type="checkbox" class="mx-1" value="094" name="group1">
+                                095<input type="checkbox" class="mx-1" value="095" name="group1">
+                                096<input type="checkbox" class="mx-1" value="096" name="group1">
+                                097<input type="checkbox" class="mx-1" value="097" name="group1">
+                                098<input type="checkbox" class="mx-1" value="098" name="group1">
+                                099<input type="checkbox" class="mx-1" value="099" name="group1">
+                            </fieldset>
+                            <p></p>
+                            <div id="dvPassport" style="display: none">
+                                <input placeholder="Please specify (Max 099)" max="999" type="number" min="0"
+                                    max="9999" min="0"
+                                    onkeydown="if(this.value.length==3 && event.keyCode>47 && event.keyCode < 58)return false;"
+                                    style="display: block; width: 35%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;" type="text" id="txtPassportNumber" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <div class="col-sm-12">
+                        <label class="col-form-label col-sm-3"
+                            for="content">
+                            Other Values: 
+                        </label>
+                        <div class="col-sm-12">
+
+                            <!-- Input box to enter the  
+              required data -->
+                            <input type="text" class="form-control required" id="other" placeholder=""  required maxlength="4" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-row" style="display: none;">
+                    <div class="col-sm-12">
+                        <label class="col-form-label col-sm-3"
+                            for="content">
+                            Secret Key: 
+                        </label>
+                        <div class="col-sm-12">
+                            <!-- Input box to enter the  
+              required data -->
+                            <input  type="text"  class="form-control required" maxlength="32" value="<%=LoadSecretKey() %>"
+              id="secretkey" placeholder="Enter the Secret Key" required /> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col-sm-12">
+                    <div class="col-sm-offset-2 col-sm-12">
+
+                        <!-- Button to generate QR Code for 
+           the entered data -->
+                        <button type="submit" class="btn btn-primary"
+                            id="generate" onclick="if(isValidate()){document.getElementById('qrcode').style.display='block'; makeCode();return false;}">
+                            Generate 
+                        </button>
+                        <%-- %><asp:Button ClientIDMode="Static" ID="hi" runat="server" Text="Button" OnClick="CalcKey"/>--%>
+                    </div>
+                </div>
+            </div>
+    </form>
+    </div> 
+                </ContentTemplate>
+        </asp:UpdatePanel>
+    
+    <script>
+
+        $("#InputForm .required").change(function () {
+            if ($(this).attr("required")) {
+                if ($(this).val()) {
+                    $(this).removeClass("is-invalid");
+                } else {
+                    $(this).addClass("is-invalid");
+                }
+            }
+        });
+
+        function isValidate() {
+            console.log($("#secretkey").val());
+            console.log($("#mo").val());
+            var forms = document.getElementsByClassName('needs-validation');
+            var NotBlank = true;
+            $("#InputForm .required").each(function () {
+                if ($(this).attr("required")) {
+                    if (!$(this).val()) {
+                        $(this).addClass("is-invalid");
+                        NotBlank = false;
+                    }
+                }
+            });
+            if (NotBlank == false) {
+                alert("Please fill in all the required field");
+            }
+            return NotBlank;
+        }
+
+        /*var subjectObject = {
+            "Floor": {
+            },
+            "Locker": {
+
+            },
+            "Setting": {
+            }
+        }
+        window.onload = function () {
+            var subjectSel = document.getElementById("mode");
+            var topicSel = document.getElementById("moo");
+            for (var x in subjectObject) {
+                subjectSel.options[subjectSel.options.length] = new Option(x, x);
+
+            }
+
+            subjectSel.onchange = function () {
+                //empty Chapters- and Topics- dropdowns
+                topicSel.length = 1;
+                //display correct values
+                for (var y in subjectObject[this.value]) {
+                    topicSel.options[topicSel.options.length] = new Option(y, y);
+                }
+
+            }
+
+        }*/
+
+
+    </script>
+    <script type="text/javascript">
+        function ShowHideDiv() {
+            var ddlPassport = document.getElementById("mo");
+            var dvPassport = document.getElementById("dvPassport");
+            dvPassport.style.display = mo.value == "Others" ? "block" : "none";
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"> 
+    </script>
+    <script type="text/javascript" src="CRC.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-editable-select.js"></script>
+    <script type="text/javascript" src="qrcode.js"></script>
+    <script type="text/javascript">
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 100,
+            height: 100
+        });
+        function printt() {
+            var w = window.open("");
+            w.document.write(document.getElementById("qrcode").outerHTML);
+        }
+        function makeCode() {
+            var checkboxes = document.getElementsByName('group1');
+            var vals = "";
+            qrcode.makeCode("hello");
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                if (checkboxes[i].checked) {
+                    var sta = document.getElementById("start").value;
+                    var stet = document.getElementById("stime").value;
+                    var en = document.getElementById("end").value;
+                    var et = document.getElementById("etime").value;
+                    var com = document.getElementById("cid").value;
+                    var mod = checkboxes[i].value;
+                    console.log("mod:", mod)
+                    //var mod = "002";
+                    var modee = document.getElementById("mode").value;
+                    //var secretkey = document.getElementById("secretkey").value;
+                    var secretkey = "<%=LoadSecretKey() %>";
+
+
+                    var header = "TIME";
+                    var hu = "-";
+                    var eee = "E";
+                    var sss = "S";
+                    if (modee == "Setting") {
+                        modee = "S";
+                    }
+                    if (modee == "Locker") {
+                        modee = "L";
+                    }
+                    if (modee == "Floor") {
+                        modee = "F";
+                    }
+
+                    //var cccc = calculate(strheader + secretkey).slice(2);
+                    //var strheader = header + hu + sss + hu + sta + hu + stet + hu + eee + hu + en + hu + et + hu + sss + com + hu + modee + mod + hu;
+                    //document.getElementById('<%=hdnfldVariable.ClientID%>').value = header + hu + sss + hu + sta + hu + stet + hu + eee + hu + en + hu + et + hu + sss + com + hu + modee + mod + hu;
+                    document.getElementById("hdnfldVariable").value = header + hu + sss + hu + sta + hu + stet + hu + eee + hu + en + hu + et + hu + sss + com + hu + modee + mod + hu;
+                    <%--var dump = "<%=CalcKey() %>";--%>
+                    //var cccc = document.getElementById("xxxvalue").value;
+                    var cccc = calculate(document.getElementById("hdnfldVariable").value + secretkey).slice(2);
+                    <%--var cccc = calculate(document.getElementById("hdnfldVariable").value + "<%=CalcKey() %>");--%>
+                    var elText = header + hu + sss + hu + sta + hu + stet + hu + eee + hu + en + hu + et + hu + sss + com + hu + modee + mod + hu + cccc;
+                    //alert(document.getElementById('<%=hdnfldVariable.ClientID%>').value);
+                    //alert(cccc);
+                    //document.getElementById("ooll").value = elText;
+                    //var ans = document.getElementById("ooll");
+                    qrcode.clear(); // clear the code.
+                    qrcode.makeCode(elText);
+                    //console.log(qrcode._el.childNodes[1])
+                    var imgs = document.getElementById("qrcode").getElementsByTagName("img");
+                    var a = document.createElement('a');
+                    //a.download = document.getElementById("ooll").value;
+                    a.href = imgs[0].src;
+                    a.download = elText + ".png"; //File name Here
+
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+
+                    console.log(qrcode._el.childNodes[1].src)
+                    //downloadImage(elText);
+                    //W
+                }
+            }
+            var oth = document.getElementById("other").value;
+            if (oth != "") {
+                document.getElementById("hdnfldVariable").value = header + hu + sss + hu + sta + hu + stet + hu + eee + hu + en + hu + et + hu + sss + com + hu + modee + oth + hu;
+                var cccc = calculate(document.getElementById("hdnfldVariable").value + secretkey).slice(2);
+                var elText = header + hu + sss + hu + sta + hu + stet + hu + eee + hu + en + hu + et + hu + sss + com + hu + modee + oth + hu + cccc;
+                qrcode.clear(); // clear the code.
+                qrcode.makeCode(elText);
+                var imgs = document.getElementById("qrcode").getElementsByTagName("img");
+                var a = document.createElement('a');
+                a.href = imgs[0].src;
+                a.download = elText + ".png"; //File name Here
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                console.log(qrcode._el.childNodes[1].src)
+            }
+        }
+        makeCode();
+        $("#text").
+            on("blur", function () {
+                makeCode();
+            }).
+            on("keydown", function (e) {
+                if (e.keyCode == 13) {
+                    makeCode();
+                }
+            });
+
+
+        function downloadImage(elText) {
+            var imgs = document.getElementById("qrcode").getElementsByTagName("img")
+            console.log("eee:", imgs[0].src)
+            var a = document.createElement('a')
+            //a.download = document.getElementById("ooll").value;
+            a.download = elText + ".png"; //File name Here
+            a.href = imgs[0].src
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+
+    </script>
+
+</asp:Content>
